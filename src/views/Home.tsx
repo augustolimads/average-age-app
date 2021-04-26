@@ -12,7 +12,7 @@ import { AgeLabel } from "../components/AgeLabel";
 
 export function Home() {
   const [formData, setFormData] = useState("");
-  const [ageList, setAgeList] = useState([1,2,3,4]);
+  const [ageList, setAgeList] = useState([0]);
 
   function insertAge() {
       if(formData){
