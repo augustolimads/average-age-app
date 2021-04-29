@@ -21,8 +21,10 @@ export function Home() {
   const [ageList, setAgeList] = useState<AgeList[]>([]);
 
   function insertAge() {
+    const newKey = uuid.v4();
+
       if(formData){
-          setAgeList([...ageList, {id: String(uuid.v4) , value: Number(formData)}])
+          setAgeList([...ageList, {id: String(newKey) , value: Number(formData)}])
           setFormData("")
       }
   }
