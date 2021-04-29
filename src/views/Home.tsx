@@ -9,20 +9,28 @@ import {
   Alert,
 } from "react-native";
 import { AgeLabel } from "../components/AgeLabel";
+import uuid from "react-native-uuid";
+
+interface AgeList{
+  id: string;
+  value: number;
+}
 
 export function Home() {
   const [formData, setFormData] = useState("");
-  const [ageList, setAgeList] = useState([0]);
+  const [ageList, setAgeList] = useState<AgeList[]>([]);
 
   function insertAge() {
       if(formData){
-          setAgeList([...ageList, Number(formData)])
+          setAgeList([...ageList, {id: String(uuid.v4) , value: Number(formData)}])
           setFormData("")
       }
   }
 
   function calcAgeAverage(){
-      const ageAverage = ageList.reduce((oldValue,currentValue) => oldValue + currentValue, 0) / ageList.length
+      const extractedValueFromObj = ageList.map(item => item.value); 
+      const ageAverage = extractedValueFromObj.reduce((oldValue,currentValue) => oldValue + currentValue, 0) / ageList.length
+
       const ageAverageWithFormat = ageAverage.toFixed(2)
       Alert.alert("O valor da média das idades é", String(ageAverageWithFormat))
   }
@@ -46,9 +54,9 @@ export function Home() {
       <View style={styles.containerList}>
         <FlatList
           data={ageList}
-          keyExtractor={(item) => String(item)}
+          keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
-            <AgeLabel content={item} />
+            <AgeLabel content={item.value} />
           )}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.list}
